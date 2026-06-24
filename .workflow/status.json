@@ -1,0 +1,42 @@
+{
+  "workflow": "alive",
+  "status": "running",
+  "currentPhase": "verify",
+  "progress": 62,
+  "phases": [
+    {
+      "name": "Finders",
+      "agents": 9,
+      "completed": 9,
+      "state": "done",
+      "note": "9 lenses swept"
+    },
+    {
+      "name": "Verifiers",
+      "agents": 51,
+      "completed": 18,
+      "state": "running",
+      "note": "3 skeptics × 17 findings"
+    },
+    {
+      "name": "Critic",
+      "agents": 0,
+      "state": "waiting"
+    },
+    {
+      "name": "Synthesizer",
+      "agents": 0,
+      "state": "waiting"
+    }
+  ],
+  "events": [
+    {
+      "timestamp": "11:42",
+      "message": "verifier-12 challenged finding F-07"
+    },
+    {
+      "timestamp": "11:43",
+      "message": "verifier-18 marked risk medium"
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "name": "workflow-radar",
+  "displayName": "Workflow Radar",
+  "description": "Live dashboard for long-running AI workflows, multi-agent systems, and orchestrated tasks.",
+  "version": "0.1.1",
+  "publisher": "davesheffer",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/davesheffer/workflow-radar.git"
+  },
+  "bugs": {
+    "url": "https://github.com/davesheffer/workflow-radar/issues"
+  },
+  "homepage": "https://github.com/davesheffer/workflow-radar#readme",
+  "engines": {
+    "vscode": "^1.84.0"
+  },
+  "categories": [
+    "Visualization",
+    "Other"
+  ],
+  "keywords": [
+    "workflow",
+    "agents",
+    "observability",
+    "dashboard",
+    "orchestration",
+    "ai"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "workflowRadar",
+          "title": "Workflow Radar",
+          "icon": "media/radar.svg"
+        }
+      ]
+    },
+    "views": {
+      "workflowRadar": [
+        {
+          "type": "webview",
+          "id": "workflowRadar.dashboard",
+          "name": "Dashboard",
+          "icon": "media/radar.svg",
+          "contextualTitle": "Workflow Radar"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "workflowRadar.refresh",
+        "title": "Refresh",
+        "category": "Workflow Radar",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "workflowRadar.openStatusFile",
+        "title": "Open Status File",
+        "category": "Workflow Radar",
+        "icon": "$(go-to-file)"
+      },
+      {
+        "command": "workflowRadar.createSampleStatus",
+        "title": "Create Sample Status File",
+        "category": "Workflow Radar",
+        "icon": "$(new-file)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "workflowRadar.refresh",
+          "when": "view == workflowRadar.dashboard",
+          "group": "navigation@1"
+        },
+        {
+          "command": "workflowRadar.openStatusFile",
+          "when": "view == workflowRadar.dashboard",
+          "group": "navigation@2"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Workflow Radar",
+      "properties": {
+        "workflowRadar.statusFilePath": {
+          "type": "string",
+          "default": ".workflow/status.json",
+          "description": "Workspace-relative path to the workflow status JSON file to watch."
+        },
+        "workflowRadar.staleThresholdSeconds": {
+          "type": "number",
+          "default": 30,
+          "minimum": 1,
+          "description": "Seconds without an update before a workflow run is flagged as stale."
+        },
+        "workflowRadar.maxEvents": {
+          "type": "number",
+          "default": 100,
+          "minimum": 1,
+          "description": "Maximum number of event-log entries to render in the dashboard."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.84.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.57.0",
+    "typescript": "^5.4.0"
+  }
+}
