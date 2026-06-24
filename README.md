@@ -73,6 +73,45 @@ write keeps the last good render while showing a non-blocking error banner.
   file is missing.
 - Native theming — light, dark, and high-contrast via VS Code theme tokens.
 
+## Feeding live workflows
+
+The extension is a passive renderer: it shows whatever a process writes to
+`.workflow/status.json`. To see real runs, point a **producer** at that file.
+
+### Claude Code workflows (bridge included)
+
+`tools/cc-workflow-bridge.js` tails the newest live Claude Code `/workflow`
+(ultracode) run and writes the status file automatically — no per-workflow code:
+
+```bash
+npm run bridge          # watches the newest active run → .workflow/status.json
+# options:
+node tools/cc-workflow-bridge.js --out .workflow/status.json --interval 1000 --name "my run"
+node tools/cc-workflow-bridge.js --dir <path-to-wf_xxx-run-dir>   # pin a specific run
+```
+
+Leave it running in a terminal; the dashboard updates live. It surfaces agents
+dispatched / completed / in-flight, overall progress, and an activity log.
+
+> Caveat: it reads an **undocumented internal** Claude Code journal format, so it
+> may break on updates. Per-phase names/labels/tokens are not available live
+> (they are only written to the run's completion record). Best-effort.
+
+### Your own workflows
+
+Have your orchestrator write the JSON directly. Minimal emitter:
+
+```js
+const fs = require('fs');
+fs.writeFileSync('.workflow/status.json', JSON.stringify({
+  workflow: 'my-pipeline',
+  status: 'running',
+  progress: 40,
+  phases: [{ name: 'Build', agents: 4, completed: 2, state: 'running' }],
+  events: [{ timestamp: new Date().toISOString(), message: 'started build' }],
+}, null, 2));
+```
+
 ## Commands
 
 | Command                                   | Description |

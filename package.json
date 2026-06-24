@@ -2,7 +2,7 @@
   "name": "workflow-radar",
   "displayName": "Workflow Radar",
   "description": "Live dashboard for long-running AI workflows, multi-agent systems, and orchestrated tasks.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publisher": "davesheffer",
   "license": "MIT",
   "repository": {
@@ -111,7 +111,8 @@
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "lint": "eslint src --ext ts"
+    "lint": "eslint src --ext ts",
+    "bridge": "node tools/cc-workflow-bridge.js"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
